@@ -1,10 +1,13 @@
+import { useState } from 'react';
 import {useParams, useNavigate} from 'react-router-dom'
-import useFetch from '../effects/useFetch';
-import { deleteBlog } from '../effects/requests';
+import { deleteBlog, getBlog } from '../firebase';
 const BlogsDetail = () => {
     const navigate = useNavigate()
     const {id} = useParams()
-    const {data: blog, isPending, error} = useFetch(`/blogs/${id}`)
+    const [blog, setBlog] = useState({})
+    getBlog(id).then((res) => {
+        setBlog(res)
+    })
     const handleClick = () => {
         deleteBlog(id).then(() => {
             navigate('/')
@@ -12,8 +15,6 @@ const BlogsDetail = () => {
     }
     return (
         <div className="blog-details">
-            {isPending && <div>Loading...</div>}
-            {error && <div>{error}</div>}
             {blog && (
                 <article>
                     <h2>{blog.title}</h2>

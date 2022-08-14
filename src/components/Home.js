@@ -1,11 +1,9 @@
 import BlogList from "./BlogList";
-import useFetch from "../effects/useFetch";
+import { useBlogsListener } from "../firebase";
 const Home = () => {
-    const {data: blogs, isPending, error} = useFetch('/blogs')
+    const blogs = useBlogsListener()
     return (
         <div className="home">
-            {isPending && <div>Loading...</div>}
-            {error && <div>{error}</div>}
             {blogs && <BlogList blogs={blogs} title="All Blogs"/>}
         </div>
     );

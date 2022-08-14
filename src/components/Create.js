@@ -1,17 +1,17 @@
 import { useState } from "react"
-import { sendBlog } from '../effects/requests'
+import { addBlog } from "../firebase"
 import { useNavigate } from 'react-router-dom'
 const Create = () => {
     const navigate = useNavigate()
     const [title, setTitle] = useState('')
     const [body, setBody] = useState('')
-    const [author, setAuthor] = useState('')
+    const [author, setAuthor] = useState('mario')
     const [isPending, setIsPending] = useState(false)
     const handleSubmit = (e) => {
         e.preventDefault()
         setIsPending(true)
         const blog = {title, body, author}
-        sendBlog(blog)
+        addBlog(blog)
         .then(() => {
             navigate('/')
         })
